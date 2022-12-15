@@ -24,7 +24,7 @@ const Home = () => {
     e.preventDefault();
 
     const config = { headers: { "Content-Type": "application/json" } };
-
+    console.log(loginEmail, loginPassword);
     axios
       .post(
         "/api/v1/login",
@@ -128,6 +128,7 @@ const Home = () => {
             type="email"
             placeholder="abc@gmail.com"
             // onChange={registerDataChange}
+            // value={loginEmail}
             onChange={(e) => setLoginEmail(e.target.value)}
           />
         </div>
