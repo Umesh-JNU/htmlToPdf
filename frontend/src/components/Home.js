@@ -27,7 +27,7 @@ const Home = () => {
     console.log(loginEmail, loginPassword);
     axios
       .post(
-        "/api/v1/login",
+        "/api/v2/login",
         { email: loginEmail, password: loginPassword },
         config
       )
@@ -64,7 +64,7 @@ const Home = () => {
 
   //   try {
   //     const config = { headers: { "Content-Type": "application/json" } };
-  //     const { data } = await axios.post("/api/v1/register", myForm, config);
+  //     const { data } = await axios.post("/api/v2/register", myForm, config);
   //     console.log(data);
   //     navigate("/actionpage");
   //   } catch (error) {

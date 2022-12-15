@@ -48,7 +48,7 @@ const AdminPanel = () => {
 
   const getDataList = async () => {
     try {
-      const { data: res } = await axios.get("/api/v1/data");
+      const { data: res } = await axios.get("/api/v2/data");
       setDataList(res.data);
     } catch (err) {
       window.alert(err.message);

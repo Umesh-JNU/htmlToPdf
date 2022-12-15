@@ -23,7 +23,7 @@ app.use(cookeiParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const dataRoute = require("./dataRoute");
-app.use("/api/v1", dataRoute);
+app.use("/api/v2/", dataRoute);
 
 app.use(express.static(path.join(__dirname, "../frontend/build")));
 app.get("*", (req, res) => {

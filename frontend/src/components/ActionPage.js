@@ -61,7 +61,7 @@ const ActionPage = () => {
     try {
       rows.forEach(async (rowVal) => {
         await axios.post(
-          "/api/v1/submit",
+          "/api/v2/submit",
           { number: parseInt(rowVal), name, id },
           config
         );
@@ -77,7 +77,7 @@ const ActionPage = () => {
 
   const onLogoutHandle = async (e) => {
     try {
-      await axios.get("/api/v1/logout");
+      await axios.get("/api/v2/logout");
       navigate("/");
     } catch (error) {
       window.alert(error.message);
