@@ -1,4 +1,5 @@
 const puppeteer = require("puppeteer");
+const { join } = require("path");
 
 const htmlToPDF = async (webURL) => {
   const browser = await puppeteer.launch({
@@ -7,6 +8,8 @@ const htmlToPDF = async (webURL) => {
   });
 
   const coverPage = await browser.newPage();
+  await coverPage.setCacheEnabled(false);
+  await coverPage.send("Network.setCacheDisabled", { cacheDisabled: true });
   await coverPage.goto(webURL, { waitUntil: "networkidle0" });
 
   return await coverPage.pdf({
@@ -19,7 +22,9 @@ const htmlToPDF = async (webURL) => {
 
 exports.generatePDF = async (req, res, next) => {
   await htmlToPDF(
-    `${req.protocol}://${req.get("host")}/actionpage/6399c12f5e839c88b475cd7d/?role=admin`
+    `${req.protocol}://${req.get(
+      "host"
+    )}/actionpage/6399c12f5e839c88b475cd7d/?role=admin`
   )
     .then((pdfdata) => {
       res.set("Content-Type", "application/pdf");
