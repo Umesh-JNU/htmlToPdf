@@ -6,6 +6,8 @@ axios.interceptors.response.use(null, (error) => {
     error.response.status >= 400 &&
     error.response.status <= 500;
 
+    console.log(error);
+    console.log(errorcode, "errorcode");
   if (!errorcode) window.alert("Something went wrong!!");
 
   return Promise.reject(error);

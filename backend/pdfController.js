@@ -3,13 +3,11 @@ const { join } = require("path");
 
 const htmlToPDF = async (webURL) => {
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
 
   const coverPage = await browser.newPage();
-  await coverPage.setCacheEnabled(false);
-  await coverPage.send("Network.setCacheDisabled", { cacheDisabled: true });
   await coverPage.goto(webURL, { waitUntil: "networkidle0" });
 
   return await coverPage.pdf({
