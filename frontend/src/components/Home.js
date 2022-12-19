@@ -24,7 +24,6 @@ const Home = () => {
     e.preventDefault();
 
     const config = { headers: { "Content-Type": "application/json" } };
-    console.log(loginEmail, loginPassword);
     axios
       .post(
         "/api/v2/login",
@@ -97,7 +96,7 @@ const Home = () => {
           border: "2px solid #ffffff",
           borderRadius: "10px",
           padding: "2rem 3rem",
-          backgroundColor: "#001e3c",
+          backgroundColor: "#ffffffd1",
         }}
         noValidate
         autoComplete="on"
@@ -142,14 +141,12 @@ const Home = () => {
             type={showPassword ? "text" : "password"}
             InputProps={{
               endAdornment: (
-                <InputAdornment position="end" sx={{ color: "inherit" }}>
+                <InputAdornment position="end">
                   <IconButton
                     aria-label="toggle password visibility"
                     onClick={handleClickShowPassword}
                     onMouseDown={handleMouseDownPassword}
                     edge="end"
-                    // sx={{ color: password ? "#fff" : "#2d87db" }}
-                    sx={{ color: loginPassword ? "#fff" : "#2d87db" }}
                   >
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
@@ -164,7 +161,6 @@ const Home = () => {
             type="submit"
             value="Submit"
             variant="outlined"
-            sx={{ color: "#FFF" }}
           />
         </div>
       </Box>

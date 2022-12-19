@@ -131,7 +131,7 @@ const ActionPage = () => {
               border: "2px solid #ffffff",
               borderRadius: "10px",
               padding: "2rem 3rem",
-              backgroundColor: "#001e3c",
+              backgroundColor: "#ffffffd1",
             }}
             noValidate
             onSubmit={onSubmitHandle}
@@ -171,6 +171,7 @@ const ActionPage = () => {
             })}
             <div>
               <Button
+                sx={{marginTop: "1rem"}}
                 variant="contained"
                 endIcon={<Add />}
                 onClick={() => onAddHandle()}
@@ -186,7 +187,6 @@ const ActionPage = () => {
                     type="submit"
                     value="Submit"
                     variant="outlined"
-                    sx={{ color: "#FFF" }}
                   />
                 </div>
               </>

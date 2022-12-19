@@ -1,15 +1,19 @@
 
 # dependencies
 /node_modules
+
 /frontend/node_modules
 /frontend/.pnp
 /frontend/.pnp.js
+
+# cache
+/cache
 
 # testing
 /frontend/coverage
 
 # production
-/frontend/build
+# /frontend/build
 
 # misc
 /backend/config/config.env

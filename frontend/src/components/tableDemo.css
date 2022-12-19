@@ -1,0 +1,10 @@
+.table {
+    width: 100vw;
+    height: 100vh;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: #0A1929;
+    font-size: 2rem;
+}
