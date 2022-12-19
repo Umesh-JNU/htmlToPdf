@@ -1,29 +1,10 @@
+const fs = require("fs");
 const puppeteer = require("puppeteer");
-const { join } = require("path");
+const { merge } = require('merge-pdf-buffers');
 
-const htmlToPDF = async (webURL) => {
-  const browser = await puppeteer.launch({
-    headless: false,
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
-  });
-
-  const coverPage = await browser.newPage();
-  await coverPage.goto(webURL, { waitUntil: "networkidle0" });
-
-  return await coverPage.pdf({
-    preferCSSPageSize: true,
-    margin: "none",
-    // format: "A4",
-    printBackground: true,
-  });
-};
 
 exports.generatePDF = async (req, res, next) => {
-  await htmlToPDF(
-    `${req.protocol}://${req.get(
-      "host"
-    )}/actionpage/6399c12f5e839c88b475cd7d/?role=admin`
-  )
+  await htmlToPDF(req.headers.referer)
     .then((pdfdata) => {
       res.set("Content-Type", "application/pdf");
       res.status(200).send(Buffer.from(pdfdata, "binary"));
@@ -32,3 +13,56 @@ exports.generatePDF = async (req, res, next) => {
       console.log(err);
     });
 };
+
+const htmlToPDF = async (webURL) => {
+  const frontend_url = webURL.split("action")[0];
+
+  const browser = await puppeteer.launch({
+    userDataDir: "./cache",
+    headless: true,
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
+
+  const page = await browser.newPage();
+  await page.goto(webURL, { waitUntil: "networkidle0" });
+
+  const all_row_val = await page.evaluate(async () => {
+    const rows = document.querySelectorAll("div.MuiDataGrid-row");
+
+    const row_val = [];
+    rows.forEach((row) => {
+      const cols = row.querySelectorAll("div.MuiDataGrid-cellContent");
+
+      row_val.push(
+        `${cols[2].innerHTML}/?a=${cols[0].innerHTML}&b=${cols[3].innerHTML}&c=${cols[4].innerHTML}`
+      );
+    });
+
+    return row_val;
+  });
+
+  const all_pages = [];
+
+  for (let i = 0; i < all_row_val.length; i++) {
+    const url = `${frontend_url}${all_row_val[i]}`;
+    const promise = page.waitForNavigation({ waitUntil: "networkidle0" });
+    await page.goto(url, { waitUntil: "networkidle0" });
+
+    const p = await page.pdf({
+      format: "A4",
+      printBackground: true,
+      margin: {
+        left: 0,
+        top: 0,
+        right: 0,
+        bottom: 0,
+      },
+    });
+    await promise;
+    all_pages.push(p);
+  }
+
+  await browser.close();
+  return await merge(all_pages);
+};
+

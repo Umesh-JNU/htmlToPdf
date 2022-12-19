@@ -42,7 +42,6 @@ exports.logoutUser = catchAsyncErrors(async (req, res, next) => {
 });
 
 exports.dataSubmit = catchAsyncErrors(async (req, res, next) => {
-  console.log(req.body);
   const { number, name, id } = req.body;
 
   const user = await userModel.findById(id);
@@ -67,7 +66,17 @@ exports.dataSubmit = catchAsyncErrors(async (req, res, next) => {
 });
 
 exports.getAllData = catchAsyncErrors(async (req, res, next) => {
-  const data = await dataModel.find();
+  let data = await dataModel.find();
+  // console.log(req.query, "query");
+  if (req.query.date) {
+    // console.log("query", req.query.date.gte, typeof req.query.date.gte, req.query.date.lte);
+    data = await dataModel.find({
+      createdAt: {
+        $gte: new Date(req.query.date.gte),
+        $lte: new Date(req.query.date.lte),
+      },
+    });
+  }
   res.status(200).json({
     success: true,
     data,
