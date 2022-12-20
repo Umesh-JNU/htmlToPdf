@@ -9,6 +9,7 @@ import {
   DialogContent,
   DialogTitle,
   Button,
+  Stack,
 } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -26,7 +27,7 @@ const AdminPanel = () => {
   };
   const submitFilter = (e) => {
     e.preventDefault();
-    
+
     getDataList(`/api/v2/data/?date[gte]=${fromDate}&date[lte]=${toDate}`);
     setOpen(false);
   };
@@ -45,18 +46,6 @@ const AdminPanel = () => {
       headerName: "Date",
       headerClassName: "super-app-theme--header",
       sortable: false,
-      renderHeader: () => {
-        return (
-          <>
-            Date
-            <GridFilterAltIcon
-              position="end"
-              onClick={filterHandler}
-              sx={{ cursor: "pointer" }}
-            />
-          </>
-        );
-      },
       width: 300,
       flex: 1.4,
     },
@@ -159,17 +148,30 @@ const AdminPanel = () => {
           </Button>
         </DialogActions>
       </Dialog>
-
-      <Typography
-        sx={{
-          marginBottom: "10px",
-          color: "#2d87db",
-          fontSize: "2rem",
-          textAlign: "center",
-        }}
+      <Stack
+        direction="row"
+        spacing={2}
+        justifyContent="center"
+        alignItems="center"
       >
-        Data List
-      </Typography>
+        <Typography
+          sx={{
+            marginBottom: "10px",
+            color: "#2d87db",
+            fontSize: "2rem",
+            textAlign: "center",
+          }}
+        >
+          Data List
+        </Typography>
+        <Button
+          variant="contained"
+          endIcon={<GridFilterAltIcon />}
+          onClick={filterHandler}
+        >
+          Filter Date
+        </Button>
+      </Stack>
       <DataGrid
         rows={rows}
         columns={columns}

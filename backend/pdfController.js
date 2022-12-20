@@ -21,6 +21,7 @@ const htmlToPDF = async (webURL) => {
     userDataDir: "./cache",
     headless: true,
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    ignoreDefaultArgs: ['--disable-extensions']
   });
 
   const page = await browser.newPage();
